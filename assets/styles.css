@@ -1,204 +1,196 @@
-/* Reset & Base Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ===========================
+   Global gradient + tokens
+   =========================== */
+:root{
+  --grad-start: #67b8f6;     /* sampled from screenshot */
+  --grad-end:   #c189dd;     /* sampled from screenshot */
+  --grad-angle: 135deg;
+
+  --text: #23303a;
+  --muted: #55636e;
+  --on-gradient: #ffffff;
+
+  --surface: #ffffff;
+  --surface-2: rgba(255,255,255,0.85);
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 6px 24px rgba(0,0,0,0.08);
 }
 
-body {
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body{
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #fdfdfd;
-  padding: 0;
+  color: var(--text);
+  background:
+    linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end)) fixed;
+  /* give a soft paper behind cards */
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
+/* Utility: gradient background block */
+.gradient-bg{
+  background: linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end));
+  color: var(--on-gradient);
 }
 
-.app-store-button img {
-  display: block;
-  margin: 1rem auto 0;
-  width: 160px;
+/* Utility: gradient text (for big headings) */
+.gradient-text{
+  background: linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-/* HERO SECTION */
-.hero {
-  background: linear-gradient(135deg, #ffebee, #e3f2fd);
-  text-align: center;
+/* Images */
+img{ max-width:100%; height:auto; display:block; }
+
+/* App Store badge */
+.app-store-button img{
+  display:block; margin:1rem auto 0; width:160px;
+}
+
+/* ===========================
+   HERO
+   =========================== */
+.hero{
+  /* full gradient + subtle overlay for readability */
+  background:
+    linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end));
+  color: var(--on-gradient);
+  text-align:center;
+  padding: 4rem 1rem 3rem;
+}
+.hero .logo{ width:100px; margin:0 auto 1rem; }
+.hero h1{ font-size: clamp(2rem, 4.5vw, 3rem); line-height:1.15; margin-bottom:.5rem; }
+.hero .tagline{ font-size: clamp(1.05rem, 2.2vw, 1.25rem); margin: 1rem auto 0; max-width: 48rem; color:#eef4ff; }
+
+/* ===========================
+   CARD SECTIONS (Features, FAQ, Screenshots, etc.)
+   We place translucent surfaces over the gradient.
+   =========================== */
+section{
   padding: 3rem 1rem;
 }
 
-.hero .logo {
-  width: 100px;
-  height: auto;
-  margin: 0 auto 1rem;
+.features,
+.screenshots,
+.faq,
+.testimonials{
+  /* translucent surface over gradient for consistent look */
+  background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0.7));
+  backdrop-filter: saturate(120%) blur(2px);
 }
 
-.hero h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-}
-
-.hero .tagline {
-  font-size: 1.25rem;
-  margin: 1rem 0;
-  color: #555;
-}
-
-.app-store-button img {
-  width: 160px;
-  margin-top: 1rem;
-}
-
-/* FEATURES */
-.features {
-  padding: 3rem 1rem;
-  text-align: center;
-  background-color: #fff8e1;
-}
-
-.features h2 {
-  font-size: 2rem;
+/* Headings */
+.features h2,
+.screenshots h2,
+.faq h2,
+.testimonials h2{
+  font-size: clamp(1.6rem, 3.2vw, 2rem);
+  text-align:center;
   margin-bottom: 2rem;
+  /* subtle gradient text accent */
+  background: linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end));
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
 }
 
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+/* Feature grid cards */
+.feature-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
   gap: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
-
-@media (max-width: 600px) {
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 600px){
+  .feature-grid{ grid-template-columns: 1fr; }
 }
 
-.feature {
-  background: white;
-  border-radius: 12px;
+.feature{
+  background: var(--surface);
+  border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+.feature h3{
+  margin-bottom:.5rem;
+  font-size:1.15rem;
+  color:#1f2a33;
+}
+.feature p{ color:#3e4a54; }
+
+/* Screenshots */
+.screenshot-gallery{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:1.5rem;
+}
+.screenshot-gallery img{
+  width:100%; max-width:300px; border-radius:16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.screenshot-gallery img:hover{
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.16);
 }
 
-.feature h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
-  color: #2c3e50;
+/* FAQ items (cards) */
+.faq-item{
+  max-width: 900px; margin: 1rem auto;
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
 }
+.faq-item h3{ font-size:1.1rem; color:#1f2a33; margin-bottom:.5rem; }
+.faq-item p{ color:#3e4a54; }
 
-.feature p {
-  font-size: 1rem;
-  color: #444;
-}
-
-/* SCREENSHOTS */
-.screenshots {
-  padding: 3rem 1rem;
-  text-align: center;
-}
-
-.screenshots h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.screenshot-gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-}
-
-.screenshot-gallery img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease;
-}
-
-.screenshot-gallery img:hover {
-  transform: scale(1.03);
-}
-
-/* FAQ */
-.faq {
-  padding: 3rem 1rem;
-  background-color: #e0f7fa;
-}
-
-.faq h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.faq-item {
-  max-width: 800px;
-  margin: 1rem auto;
-}
-
-.faq-item h3 {
-  font-size: 1.2rem;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-}
-
-.faq-item p {
-  font-size: 1rem;
-  color: #444;
-}
-
-/* TESTIMONIALS */
-.testimonials {
-  padding: 3rem 1rem;
-  background-color: #f3e5f5;
-  text-align: center;
-}
-
-.testimonials h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-}
-
-.testimonials blockquote {
+/* Testimonials */
+.testimonials blockquote{
   font-style: italic;
-  margin: 1rem auto;
-  max-width: 700px;
-  font-size: 1.1rem;
-  color: #555;
+  margin: 1rem auto; max-width: 760px;
+  font-size: 1.1rem; color:#2c3640;
+  background: var(--surface);
+  border-radius: 14px; padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow); border: 1px solid var(--border);
+}
+.testimonials cite{
+  display:block; margin-top:.5rem; font-size:.9rem; color:#6a7681;
 }
 
-.testimonials cite {
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  color: #777;
+/* ===========================
+   Footer
+   =========================== */
+.footer{
+  padding: 2rem 1rem; text-align:center;
+  background: linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end));
+  color: var(--on-gradient);
+  font-size: .95rem;
 }
+.footer a{
+  color: #ffffff; text-decoration: none; margin: 0 .5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+}
+.footer a:hover{ border-bottom-color: rgba(255,255,255,0.8); }
 
-/* FOOTER */
-.footer {
-  padding: 2rem 1rem;
-  text-align: center;
-  background: #eceff1;
-  font-size: 0.9rem;
-  color: #555;
+/* ===========================
+   Optional: gradient buttons/badges
+   =========================== */
+.button-gradient{
+  display:inline-block;
+  padding:.75rem 1rem; border-radius:999px; font-weight:600;
+  color:#fff; text-decoration:none;
+  background: linear-gradient(var(--grad-angle), var(--grad-start), var(--grad-end));
+  box-shadow: 0 8px 24px rgba(108, 99, 255, 0.25);
+  transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
 }
-
-.footer a {
-  color: #333;
-  text-decoration: none;
-  margin: 0 0.5rem;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
+.button-gradient:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+.button-gradient:active{ transform: translateY(0); filter: brightness(.97); }
